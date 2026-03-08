@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Hero } from "@/components/Hero";
 import { NavbarDemo } from "@/components/NavbarDemo";
 import { SITE_NAME, SITE_URL, buildSeoMetadata } from "@/lib/seo";
@@ -54,8 +55,24 @@ export default function Home() {
       <NavbarDemo />
       <main className="pt-20 sm:pt-24">
         <Hero />
-        <ComponentGrid mode="home" />
-        <Categories />
+        <Suspense
+          fallback={
+            <div className="mx-auto w-[min(1120px,94%)] py-10 text-sm text-neutral-500 dark:text-neutral-400">
+              Loading components...
+            </div>
+          }
+        >
+          <ComponentGrid mode="home" />
+        </Suspense>
+        <Suspense
+          fallback={
+            <div className="mx-auto w-[min(1120px,94%)] py-10 text-sm text-neutral-500 dark:text-neutral-400">
+              Loading categories...
+            </div>
+          }
+        >
+          <Categories />
+        </Suspense>
         <HowItWorks />
         <FeatureSection />
       </main>

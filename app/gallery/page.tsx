@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import { NavbarDemo } from "@/components/NavbarDemo";
 import { buildSeoMetadata } from "@/lib/seo";
@@ -24,7 +25,15 @@ export default function GalleryPage() {
       <div className="hero-glow" aria-hidden />
       <NavbarDemo />
       <main className="pt-20 sm:pt-24">
-        <ComponentGrid mode="gallery" />
+        <Suspense
+          fallback={
+            <div className="mx-auto w-[min(1120px,94%)] py-10 text-sm text-neutral-500 dark:text-neutral-400">
+              Loading gallery...
+            </div>
+          }
+        >
+          <ComponentGrid mode="gallery" />
+        </Suspense>
       </main>
       <Footer />
     </div>
