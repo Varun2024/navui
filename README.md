@@ -1,36 +1,153 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NavUI
 
-## Getting Started
+Open-source component library focused on modern navigation patterns.
 
-First, run the development server:
+NavUI ships reusable navbar patterns with:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- live previews
+- copy-ready code
+- AI prompts
+- category/tag filtering
+- one-click "Preview on Home" behavior testing
+
+Repository: `https://github.com/Varun2024/navui.git`
+
+## Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Quick Start](#quick-start)
+- [Library Data Model](#library-data-model)
+- [How New Navbar Designs Work](#how-new-navbar-designs-work)
+- [Contribution System](#contribution-system)
+- [Design Guidelines](#design-guidelines)
+- [Quality Checklist](#quality-checklist)
+- [Roadmap](#roadmap)
+
+## Features
+
+- Dynamic gallery and detail pages for each navbar component.
+- Home featured section with category-balanced visual diversity.
+- Newest-first gallery ordering for fresh component discovery.
+- "Apply one" and "Preview on Home" interaction flow for testing navbar behavior in context.
+- Scroll, drawer, dock, mobile, and sidebar navigation patterns.
+
+## Tech Stack
+
+- Next.js (App Router)
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- next-themes
+- lucide-react
+
+## Project Structure
+
+```text
+navui/
+  app/                         # routes (home, gallery, navbar detail pages, seo pages)
+  components/
+    navbar-components/         # reusable preview components for detail pages
+    ui/                        # small UI building blocks
+  data/
+    navbars.ts                 # source of truth for navbar catalog
+  docs/
+    PRD.md                     # product requirements
+  CONTRIBUTING.md              # contributor workflow and rules
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Quick Start
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open `http://localhost:3000`.
 
-## Learn More
+Useful commands:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run lint
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Library Data Model
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+All navbar entries live in `data/navbars.ts`.
 
-## Deploy on Vercel
+Each entry must match this shape:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```ts
+type NavbarItem = {
+  slug: string;
+  title: string;
+  category: string;
+  tags: string[];
+  summary: string;
+  seoText: string;
+  code: string;
+  prompt: string;
+};
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`slug` is the stable identifier used by:
+
+- dynamic detail route (`/navbars/[slug]`)
+- preview mapping (`components/navbar-components/previews.tsx`)
+- home apply system (`NAVBAR_STYLE_STORAGE_KEY`)
+
+## How New Navbar Designs Work
+
+When a new navbar is added, you should update these places:
+
+1. `data/navbars.ts`
+2. `components/navbar-components/previews.tsx`
+3. `components/NavbarDemo.tsx` (if it needs custom live behavior)
+4. `components/ComponentGrid.tsx` (featured layout/priority tuning)
+
+If a new style does not need a new interaction model, map it to an existing preview/demo variant.
+
+## Contribution System
+
+NavUI uses a contribution contract so new navbar designs are consistent.
+
+System components:
+
+- `CONTRIBUTING.md`: full process, conventions, and review criteria.
+- `docs/NAVBAR_SUBMISSION_TEMPLATE.md`: copy-paste template for adding a new navbar entry.
+- Required validation: `npm run lint` must pass before PR.
+
+PR expectations:
+
+- one navbar design per focused PR is preferred
+- include all required files/updates
+- avoid breaking existing slugs and routes
+- preserve CTA consistency: `Contribute` -> `https://github.com/Varun2024/navui.git`
+
+## Design Guidelines
+
+- Every navbar should be visually distinct from others.
+- Differentiation should come from at least one of these signals: color treatment, typography style, layout shape (top, dock, drawer, sidebar, tab), or motion pattern.
+- Keep nav links aligned to real app routes.
+- Route: `/`
+- Route: `/gallery`
+- Route: `/#categories`
+- Route: `/#how-it-works`
+
+## Quality Checklist
+
+Before opening a PR:
+
+1. Added/updated catalog entry in `data/navbars.ts`.
+2. Added or mapped preview in `components/navbar-components/previews.tsx`.
+3. Added live behavior mapping in `components/NavbarDemo.tsx` when needed.
+4. Tuned featured layout/priority if the card should appear on home.
+5. Verified mobile behavior.
+6. Ran `npm run lint`.
+
+## Roadmap
+
+- More navigation patterns (desktop + mobile + hybrid).
+- Improved contributor tooling (lint guards for duplicate slugs/tags).
+- Extended docs for animation and accessibility standards.
