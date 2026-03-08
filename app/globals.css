@@ -1,26 +1,102 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f5f7fb;
+  --foreground: #0f1720;
+  --surface: #ffffff;
+  --grid: rgba(15, 23, 32, 0.045);
+}
+
+.dark {
+  --background: #0b0c10;
+  --foreground: #f3f4f6;
+  --surface: #111317;
+  --grid: rgba(148, 163, 184, 0.09);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  background: radial-gradient(
+      900px 500px at 15% -10%,
+      rgba(99, 102, 241, 0.1),
+      transparent 70%
+    ),
+    radial-gradient(
+      700px 400px at 88% 10%,
+      rgba(14, 165, 233, 0.06),
+      transparent 68%
+    );
+  pointer-events: none;
+}
+
+.hero-glow {
+  position: absolute;
+  left: 50%;
+  top: -180px;
+  width: min(1000px, 92vw);
+  height: 520px;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    circle at center,
+    rgba(99, 102, 241, 0.2),
+    rgba(99, 102, 241, 0)
+  );
+  filter: blur(12px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.tap-press {
+  transition: transform 140ms ease, opacity 140ms ease, background-color 140ms ease;
+  transform-origin: center;
+}
+
+.tap-press:active {
+  transform: scale(0.97);
+}
+
+.touch-target {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tap-press {
+    transition: none;
+  }
+
+  .tap-press:active {
+    transform: none;
+  }
 }
