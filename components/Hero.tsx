@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ClipboardCopy, Eye, Github, Twitter } from "lucide-react";
 import Link from "next/link";
+import { BuyMeCoffeeWidget } from "@/components/BuyMeCoffeeWidget";
 import {
   NAVBAR_STYLE_APPLIED_KEY,
   NAVBAR_STYLE_EVENT,
@@ -101,39 +102,46 @@ export function Hero() {
           Copy clean navbars. Paste. Ship.
         </p>
 
-        <div className="mx-auto flex max-w-2xl flex-col items-stretch justify-center gap-3 pt-2 sm:flex-row sm:items-center">
+        <div className="mx-auto flex w-full max-w-2xl flex-col items-stretch justify-center gap-2 pt-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
           <Link
             href="/gallery"
-            className="rounded-xl bg-black px-5 py-3 text-center text-sm font-medium text-white transition hover:opacity-90 dark:bg-white dark:text-black"
+            className="rounded-xl bg-black px-3.5 py-2.5 text-center text-xs font-medium text-white transition hover:opacity-90 sm:px-5 sm:py-3 sm:text-sm dark:bg-white dark:text-black"
           >
             Explore Gallery
           </Link>
           <Link
             href="/navbars/stripe-navbar"
-            className="rounded-xl border border-black/10 bg-white px-5 py-3 text-center text-sm font-medium text-neutral-800 transition hover:bg-neutral-100 dark:border-white/10 dark:bg-neutral-950 dark:text-neutral-100 dark:hover:bg-neutral-900"
+            className="rounded-xl border border-black/10 bg-white px-3.5 py-2.5 text-center text-xs font-medium text-neutral-800 transition hover:bg-neutral-100 sm:px-5 sm:py-3 sm:text-sm dark:border-white/10 dark:bg-neutral-950 dark:text-neutral-100 dark:hover:bg-neutral-900"
           >
-            View First Component
+            <span className="sm:hidden">View Component</span>
+            <span className="hidden sm:inline">View First Component</span>
           </Link>
-          <Link
-            href="https://github.com/Varun2024/navui.git"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Contribute on GitHub"
-            title="Contribute"
-            className="inline-flex items-center justify-center rounded-xl border border-black/10 bg-white px-5 py-3 text-neutral-800 transition hover:bg-neutral-100 dark:border-white/10 dark:bg-neutral-950 dark:text-neutral-100 dark:hover:bg-neutral-900"
-          >
-            <Github size={18} />
-          </Link>
-          <Link
-            href="https://twitter.com/TheV_Stack"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Follow on Twitter"
-            title="Twitter"
-            className="inline-flex items-center justify-center rounded-xl border border-black/10 bg-white px-5 py-3 text-neutral-800 transition hover:bg-neutral-100 dark:border-white/10 dark:bg-neutral-950 dark:text-neutral-100 dark:hover:bg-neutral-900"
-          >
-            <Twitter size={18} />
-          </Link>
+
+          <div className="flex flex-nowrap items-center justify-center gap-2 sm:contents">
+            <Link
+              href="https://github.com/Varun2024/navui.git"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Contribute on GitHub"
+              title="Contribute"
+              className="inline-flex shrink-0 items-center justify-center rounded-xl border border-black/10 bg-white px-3 py-2.5 text-neutral-800 transition hover:bg-neutral-100 sm:px-5 sm:py-3 dark:border-white/10 dark:bg-neutral-950 dark:text-neutral-100 dark:hover:bg-neutral-900"
+            >
+              <Github size={18} />
+            </Link>
+            <Link
+              href="https://twitter.com/TheV_Stack"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow on Twitter"
+              title="Twitter"
+              className="inline-flex shrink-0 items-center justify-center rounded-xl border border-black/10 bg-white px-3 py-2.5 text-neutral-800 transition hover:bg-neutral-100 sm:px-5 sm:py-3 dark:border-white/10 dark:bg-neutral-950 dark:text-neutral-100 dark:hover:bg-neutral-900"
+            >
+              <Twitter size={18} />
+            </Link>
+            <div className="shrink-0">
+              <BuyMeCoffeeWidget stickOnScroll />
+            </div>
+          </div>
         </div>
 
         <div className="mx-auto flex flex-wrap items-center justify-center gap-2 rounded-2xl px-4 py-3 text-xs text-neutral-700 shadow-sm dark:border-indigo-300/25 dark:from-indigo-900/35 dark:via-fuchsia-900/25 dark:to-cyan-900/25 dark:text-neutral-200 sm:text-sm">

@@ -13,6 +13,11 @@ export const NAVBAR_STYLE_STORAGE_KEY = "navui.home.navbarStyle";
 export const NAVBAR_STYLE_EVENT = "navui-navbar-style-change";
 export const NAVBAR_STYLE_APPLIED_KEY = "navui.home.navbarApplied";
 
+const SNIPPET_LOGO_MARKUP = `<a className="inline-flex items-center gap-2 font-semibold">
+  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-black text-xs font-bold text-white">N</span>
+  NavUI
+</a>`;
+
 function buildSeoText(componentName: string, featureText: string) {
   return `This ${componentName.toLowerCase()} is built using Next.js and Tailwind CSS. ${featureText}`;
 }
@@ -32,7 +37,7 @@ export const navbars: NavbarItem[] = [
   return (
     <nav className="rounded-xl border bg-white px-4 py-3">
       <div className="flex items-center justify-between">
-        <a className="font-semibold">NavUI</a>
+        ${SNIPPET_LOGO_MARKUP}
         <button className="rounded-lg border px-3 py-2 md:hidden">Menu</button>
       </div>
       <div className="mt-3 hidden gap-6 text-sm md:flex">
@@ -59,7 +64,10 @@ export const navbars: NavbarItem[] = [
     code: `export function TailwindNavbar() {
   return (
     <nav className="flex items-center justify-between rounded-xl border bg-white px-4 py-3">
-      <a className="font-medium">NavUI</a>
+      <a className="inline-flex items-center gap-2 font-medium">
+        <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-black text-xs font-bold text-white">N</span>
+        NavUI
+      </a>
       <div className="hidden gap-6 text-sm md:flex">
         <a>Features</a>
         <a>Docs</a>
@@ -108,7 +116,7 @@ export function ScrollShrinkingNavbar() {
           (isCompact ? "py-2 shadow-md" : "py-4 shadow-sm")
         }
       >
-        <a className="font-semibold">NavUI</a>
+        ${SNIPPET_LOGO_MARKUP}
         <div className="hidden gap-6 text-sm md:flex">
           <a>Components</a>
           <a>Templates</a>
@@ -161,7 +169,7 @@ export function ScrollShrinkingNavbar() {
   return (
     <nav className="rounded-xl border bg-white px-4 py-3">
       <div className="flex items-center justify-between">
-        <a className="font-semibold">NavUI</a>
+        ${SNIPPET_LOGO_MARKUP}
         <button className="rounded-lg border px-3 py-2 text-sm">Products</button>
       </div>
       <div className="mt-3 grid gap-3 rounded-xl border bg-neutral-50 p-3 md:grid-cols-3">
@@ -215,7 +223,7 @@ export function ScrollShrinkingNavbar() {
   return (
     <header className="sticky top-3 z-20">
       <nav className="mx-auto flex w-[min(1080px,94%)] items-center justify-between rounded-xl border bg-white/90 px-4 py-3 backdrop-blur">
-        <a className="font-semibold">NavUI</a>
+        ${SNIPPET_LOGO_MARKUP}
         <div className="hidden gap-6 text-sm md:flex">
           <a>Features</a>
           <a>Pricing</a>
@@ -242,7 +250,7 @@ export function ScrollShrinkingNavbar() {
     code: `export function GlassNavbar() {
   return (
     <nav className="flex items-center justify-between rounded-2xl border border-white/30 bg-white/60 px-4 py-3 backdrop-blur-xl">
-      <a className="font-semibold">NavUI</a>
+      ${SNIPPET_LOGO_MARKUP}
       <div className="hidden gap-5 text-sm md:flex">
         <a>Showcase</a>
         <a>Components</a>
@@ -344,7 +352,7 @@ export function ScrollShrinkingNavbar() {
     code: `export function AnimatedUnderlineNavbar() {
   return (
     <nav className="flex items-center justify-between rounded-xl border bg-white px-4 py-3">
-      <a className="font-semibold">NavUI</a>
+      ${SNIPPET_LOGO_MARKUP}
       <div className="hidden items-center gap-6 text-sm md:flex">
         <a className="group relative py-1">Product<span className="absolute bottom-0 left-0 h-px w-0 bg-current transition-all group-hover:w-full" /></a>
         <a className="group relative py-1">Docs<span className="absolute bottom-0 left-0 h-px w-0 bg-current transition-all group-hover:w-full" /></a>
@@ -416,7 +424,10 @@ export function ScrollShrinkingNavbar() {
     code: `export function WorkspaceSwitcherNavbar() {
   return (
     <aside className="w-64 rounded-2xl border bg-white p-4">
-      <button className="mb-3 w-full rounded-lg border px-3 py-2 text-left text-sm">Workspace: NavUI</button>
+      <button className="mb-3 inline-flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm">
+        <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-black text-xs font-bold text-white">N</span>
+        Workspace: NavUI
+      </button>
       <nav className="space-y-2 text-sm">
         <a className="block rounded-lg bg-neutral-100 px-3 py-2">Home</a>
         <a className="block rounded-lg px-3 py-2 hover:bg-neutral-100">Gallery</a>
@@ -441,7 +452,7 @@ export function ScrollShrinkingNavbar() {
     code: `export function CommandPaletteNavbar() {
   return (
     <nav className="flex items-center justify-between rounded-xl border bg-white px-4 py-3">
-      <a className="font-semibold">NavUI</a>
+      ${SNIPPET_LOGO_MARKUP}
       <button className="rounded-lg border px-3 py-2 text-sm">Search commands (Ctrl+K)</button>
       <a className="rounded-lg bg-black px-3 py-2 text-sm text-white">Contribute</a>
     </nav>
@@ -462,9 +473,9 @@ export function ScrollShrinkingNavbar() {
     ),
     code: `export function GradientNavbar() {
   return (
-    <nav className="rounded-2xl border bg-gradient-to-r from-sky-50 to-indigo-50 px-4 py-3">
+    <nav className="rounded-2xl border bg-linear-to-r from-sky-50 to-indigo-50 px-4 py-3">
       <div className="flex items-center justify-between">
-        <a className="font-semibold">NavUI</a>
+        ${SNIPPET_LOGO_MARKUP}
         <div className="hidden gap-6 text-sm md:flex">
           <a>Gallery</a>
           <a>Categories</a>
@@ -514,7 +525,7 @@ export function ScrollShrinkingNavbar() {
     code: `export function MorphingMenuNavbar() {
   return (
     <nav className="flex items-center justify-between rounded-xl border bg-white px-4 py-3">
-      <a className="font-semibold">NavUI</a>
+      ${SNIPPET_LOGO_MARKUP}
       <button className="rounded-lg border px-3 py-2 text-sm">Menu</button>
       <a className="rounded-lg bg-black px-3 py-2 text-sm text-white">Contribute</a>
     </nav>
@@ -583,7 +594,7 @@ export function ScrollShrinkingNavbar() {
   return (
     <nav className="rounded-xl border bg-white px-4 py-3">
       <div className="flex items-center justify-between">
-        <a className="font-semibold">NavUI</a>
+        ${SNIPPET_LOGO_MARKUP}
         <div className="hidden gap-5 text-sm md:flex">
           <a>Gallery</a>
           <a>Categories</a>

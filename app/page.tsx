@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import { BuyMeCoffeeWidget } from "@/components/BuyMeCoffeeWidget";
 import { Hero } from "@/components/Hero";
 import { NavbarDemo } from "@/components/NavbarDemo";
 
@@ -28,7 +27,6 @@ export default function Home() {
     <div className="relative min-h-screen overflow-x-hidden">
       <div className="hero-glow" aria-hidden />
       <NavbarDemo />
-      <BuyMeCoffeeWidget />
       <main className="pt-20 sm:pt-24">
         <Hero />
         <ComponentGrid mode="home" />

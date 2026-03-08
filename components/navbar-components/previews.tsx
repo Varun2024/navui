@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { Compass, Grid3X3, Home, Menu, Sparkles, Workflow } from "lucide-react";
+import { NavUILogo } from "@/components/ui/NavUILogo";
 
 const GITHUB_REPO_URL = "https://github.com/Varun2024/navui.git";
 
@@ -43,7 +44,7 @@ function LinearNavbarPreview() {
 function GlassNavbarPreview() {
   return (
     <nav className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-black/10 bg-white/70 px-2.5 py-2 backdrop-blur-xl dark:border-white/10 dark:bg-neutral-900/70">
-      <span className="text-sm font-semibold">NavUI</span>
+      <NavUILogo compact textClassName="text-neutral-900 dark:text-neutral-100" />
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-neutral-700 dark:text-neutral-300">
         <Link href="/gallery">Gallery</Link>
         <Link href="/#categories">Categories</Link>
@@ -60,7 +61,7 @@ function ScrollNavbarPreview() {
   return (
     <header className="sticky top-2">
       <nav className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-black/10 bg-neutral-900 px-2.5 py-2 shadow-sm dark:border-white/10 dark:bg-neutral-950/85">
-        <span className="text-sm font-semibold">NavUI</span>
+        <NavUILogo compact textClassName="text-neutral-100" />
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-neutral-300">
           <Link href="/gallery">Gallery</Link>
           <Link href="/#categories">Categories</Link>
@@ -127,7 +128,7 @@ function MegaMenuPreview() {
   return (
     <div className="space-y-3">
       <nav className="flex items-center justify-between rounded-xl border border-black/10 bg-white px-2.5 py-2 dark:border-white/10 dark:bg-neutral-950">
-        <span className="text-sm font-semibold">NavUI</span>
+        <NavUILogo compact textClassName="text-neutral-900 dark:text-neutral-100" />
         <Link href="/gallery" className="rounded-md border border-black/10 px-2.5 py-1 text-[11px] transition active:scale-95 dark:border-white/10">
           Gallery
         </Link>
@@ -163,7 +164,7 @@ function StickyCtaNavbarPreview() {
   return (
     <header className="sticky top-2">
       <nav className="flex items-center justify-between gap-2 rounded-xl border border-emerald-200 bg-white/90 px-2.5 py-2 shadow-sm backdrop-blur dark:border-emerald-400/35 dark:bg-neutral-950/90">
-        <span className="text-sm font-semibold">NavUI</span>
+        <NavUILogo compact textClassName="text-neutral-900 dark:text-neutral-100" />
         <div className="hidden items-center gap-3 text-[11px] text-neutral-700 dark:text-neutral-300 sm:flex">
           <Link href="/gallery">Gallery</Link>
           <Link href="/#categories">Categories</Link>
@@ -181,7 +182,7 @@ function ScrollClassicNavbarPreview() {
   return (
     <header className="sticky top-0">
       <nav className="flex items-center justify-between gap-2 border-b border-black/10 bg-white/95 px-2.5 py-2.5 backdrop-blur dark:border-white/10 dark:bg-neutral-950/95">
-        <span className="text-sm font-semibold">NavUI</span>
+        <NavUILogo compact textClassName="text-neutral-900 dark:text-neutral-100" />
         <div className="flex items-center gap-x-3 gap-y-1 text-[11px] text-neutral-700 dark:text-neutral-300">
           <Link href="/gallery">Gallery</Link>
           <Link href="/#categories">Categories</Link>
@@ -266,7 +267,7 @@ function BottomMobileNavPreview() {
 function MinimalNavbarPreview() {
   return (
     <nav className="flex flex-wrap items-center justify-between gap-2 border-b border-black/10 bg-white px-2 py-2.5 font-serif dark:border-white/10 dark:bg-neutral-950">
-      <span className="text-sm font-medium italic">NavUI</span>
+      <NavUILogo compact textClassName="text-neutral-900 dark:text-neutral-100" />
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-neutral-600 dark:text-neutral-300">
         <Link href="/">Home</Link>
         <Link href="/#categories">Categories</Link>
@@ -279,7 +280,7 @@ function MinimalNavbarPreview() {
 function AnimatedUnderlineNavbarPreview() {
   return (
     <nav className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-black/10 bg-white px-2.5 py-2 dark:border-white/10 dark:bg-neutral-950">
-      <span className="text-sm font-semibold">NavUI</span>
+      <NavUILogo compact textClassName="text-neutral-900 dark:text-neutral-100" />
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] sm:text-xs">
         <Link href="/gallery" className="group relative py-1">
           Gallery
@@ -300,7 +301,7 @@ function AnimatedUnderlineNavbarPreview() {
 function GradientNavbarPreview() {
   return (
     <nav className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-transparent bg-linear-to-r from-fuchsia-500/30 via-indigo-500/35 to-sky-500/30 px-2.5 py-2 ring-1 ring-indigo-400/40 dark:from-fuchsia-500/35 dark:via-indigo-500/40 dark:to-cyan-500/35 dark:ring-sky-300/40">
-      <span className="text-sm font-semibold">NavUI</span>
+      <NavUILogo compact textClassName="text-neutral-900 dark:text-neutral-100" />
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-medium text-neutral-900 dark:text-neutral-100">
         <Link href="/gallery">Gallery</Link>
         <Link href="/#categories">Categories</Link>
@@ -327,7 +328,7 @@ function FloatingCenterNavbarPreview() {
 function CommandPaletteNavbarPreview() {
   return (
     <nav className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-black/10 bg-neutral-900 px-2.5 py-2 text-neutral-100 dark:border-white/10 dark:bg-neutral-950">
-      <span className="text-sm font-semibold">NavUI</span>
+      <NavUILogo compact textClassName="text-neutral-900 dark:text-neutral-100" />
       <button className="rounded-md border border-neutral-700 px-2.5 py-1 text-[11px]">Search commands (Ctrl+K)</button>
       <Link href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer" className="rounded-md bg-white px-2.5 py-1 text-[11px] text-black">Contribute</Link>
     </nav>
@@ -337,7 +338,7 @@ function CommandPaletteNavbarPreview() {
 function MorphingMenuPreview() {
   return (
     <nav className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-black/10 bg-white px-2.5 py-2 dark:border-white/10 dark:bg-neutral-950">
-      <span className="text-sm font-semibold">NavUI</span>
+      <NavUILogo compact textClassName="text-neutral-100" />
       <button className="inline-flex items-center gap-1 rounded-md border border-black/10 px-2.5 py-1 text-[11px] transition hover:scale-105 dark:border-white/10">
         <Sparkles size={12} />
         Morph Menu

@@ -21,7 +21,7 @@ export function Footer() {
             Contribute
           </a>
           <a
-            href="https://twitter.com/The_Vstack"
+            href="https://twitter.com/TheV_Stack"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-black dark:hover:text-white"

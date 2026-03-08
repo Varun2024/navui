@@ -524,7 +524,7 @@ export function ComponentGrid({ mode = "home" }: ComponentGridProps) {
       );
 
       if (pathname !== "/") {
-        router.push("/#gallery");
+        router.push("/gallery");
       }
 
       setToastMessage("Applied. Open Details for full effect.");

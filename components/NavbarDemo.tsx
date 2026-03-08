@@ -16,6 +16,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { NavUILogo } from "@/components/ui/NavUILogo";
 import {
   NAVBAR_STYLE_APPLIED_KEY,
   NAVBAR_STYLE_EVENT,
@@ -163,7 +164,11 @@ function TopNavbar({
                 : "rounded-lg bg-black px-2 py-1 text-white dark:bg-white dark:text-black"
             }`}
           >
-            {brandLabel}
+            {brandLabel === "NavUI" ? (
+              <NavUILogo compact hideTextOnMobile textClassName="text-current" />
+            ) : (
+              brandLabel
+            )}
           </Link>
 
           <div className="hidden items-center gap-5 text-sm md:flex">

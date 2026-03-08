@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import type { NavbarItem } from "@/data/navbars";
 import { CopyButton } from "@/components/ui/CopyButton";
+import { NavUILogo } from "@/components/ui/NavUILogo";
 
 type NavbarDetailClientProps = {
   item: NavbarItem;
@@ -82,6 +83,28 @@ function renderHighlightedCode(code: string) {
   ));
 }
 
+function shouldBlockPreviewNavigation(anchor: HTMLAnchorElement) {
+  if (anchor.getAttribute("target") === "_blank") {
+    return false;
+  }
+
+  const href = anchor.getAttribute("href") ?? "";
+  if (!href) {
+    return false;
+  }
+
+  if (href.startsWith("/") || href.startsWith("#")) {
+    return true;
+  }
+
+  try {
+    const url = new URL(href, window.location.href);
+    return url.origin === window.location.origin;
+  } catch {
+    return false;
+  }
+}
+
 function ScrollShrinkingInteractivePreview() {
   const [isCompact, setIsCompact] = useState(false);
 
@@ -99,7 +122,7 @@ function ScrollShrinkingInteractivePreview() {
             isCompact ? "py-1 shadow-md" : "py-4 shadow-sm"
           }`}
         >
-          <span className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">NavUI</span>
+          <NavUILogo compact textClassName="text-neutral-900 dark:text-neutral-100" />
           <div className="hidden gap-4 text-xs text-neutral-700 dark:text-neutral-300 sm:flex">
             <span>Components</span>
             <span>Templates</span>
@@ -129,6 +152,8 @@ export function NavbarDetailClient({ item, preview }: NavbarDetailClientProps) {
   const isScrollShrinkingNavbar = item.slug === "scroll-navbar";
   const highlightedCode = useMemo(() => renderHighlightedCode(item.code), [item.code]);
   const [previewHint, setPreviewHint] = useState(false);
+  const [mobilePanel, setMobilePanel] = useState<"code" | "prompt">("code");
+  const [mobileMainPanel, setMobileMainPanel] = useState<"preview" | "details">("preview");
 
   useEffect(() => {
     if (!previewHint) {
@@ -140,25 +165,25 @@ export function NavbarDetailClient({ item, preview }: NavbarDetailClientProps) {
   }, [previewHint]);
 
   return (
-    <div className="mx-auto w-[min(1120px,94%)] py-10 md:py-14">
+    <div className="mx-auto w-[min(1120px,94%)] overflow-x-clip py-6 md:py-14">
       <Link
         href="/gallery"
-        className="mb-4 inline-flex text-sm text-neutral-600 transition hover:text-black dark:text-neutral-300 dark:hover:text-white"
+        className="mb-3 inline-flex text-sm text-neutral-600 transition hover:text-black dark:text-neutral-300 dark:hover:text-white md:mb-4"
       >
         Back to gallery
       </Link>
 
-      <div className="grid gap-5 lg:grid-cols-[1.2fr,0.8fr]">
+      <div className="grid gap-4 md:gap-5 lg:grid-cols-[1.2fr,0.8fr]">
         <motion.section
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
-          className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-neutral-950"
+          className="min-w-0 rounded-2xl border border-black/10 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-neutral-950 md:p-5"
         >
-          <div className="mb-4 flex items-start justify-between gap-4">
+          <div className="mb-4 flex flex-col items-start gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
             <div>
-              <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">{item.title}</h1>
-              <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-300">{item.summary}</p>
+              <h1 className="text-xl font-semibold tracking-tight sm:text-2xl md:text-3xl">{item.title}</h1>
+              <p className="mt-1.5 text-sm text-neutral-600 dark:text-neutral-300 md:mt-2">{item.summary}</p>
             </div>
             <span className="rounded-lg border border-black/10 px-2 py-1 text-xs dark:border-white/10">
               {item.category}
@@ -169,52 +194,106 @@ export function NavbarDetailClient({ item, preview }: NavbarDetailClientProps) {
             {item.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-md border border-black/10 px-2 py-1 text-xs text-neutral-600 dark:border-white/10 dark:text-neutral-300"
+                className="max-w-full wrap-break-word rounded-md border border-black/10 px-2 py-1 text-xs text-neutral-600 dark:border-white/10 dark:text-neutral-300"
               >
                 {tag}
               </span>
             ))}
           </div>
 
+          <div className="mb-3 grid grid-cols-2 gap-2 rounded-xl border border-black/10 bg-white p-1 dark:border-white/10 dark:bg-neutral-950 lg:hidden">
+            <button
+              type="button"
+              onClick={() => setMobileMainPanel("preview")}
+              className={`rounded-lg px-3 py-2 text-xs font-medium transition ${
+                mobileMainPanel === "preview"
+                  ? "bg-black text-white dark:bg-white dark:text-black"
+                  : "text-neutral-700 hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-900"
+              }`}
+            >
+              Preview
+            </button>
+            <button
+              type="button"
+              onClick={() => setMobileMainPanel("details")}
+              className={`rounded-lg px-3 py-2 text-xs font-medium transition ${
+                mobileMainPanel === "details"
+                  ? "bg-black text-white dark:bg-white dark:text-black"
+                  : "text-neutral-700 hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-900"
+              }`}
+            >
+              Details
+            </button>
+          </div>
+
           <div
             onClickCapture={(event) => {
-              const target = event.target as HTMLElement;
+              const target = event.target;
+              if (!(target instanceof Element)) {
+                return;
+              }
+
               const anchor = target.closest("a");
-              const href = anchor?.getAttribute("href") ?? "";
-              if (anchor && href.startsWith("/")) {
+              if (anchor instanceof HTMLAnchorElement && shouldBlockPreviewNavigation(anchor)) {
                 event.preventDefault();
+                event.stopPropagation();
                 setPreviewHint(true);
               }
             }}
-            className="rounded-xl border border-dashed border-black/15 bg-neutral-50 p-4 dark:border-white/15 dark:bg-neutral-900"
+            className={`${mobileMainPanel === "preview" ? "" : "hidden"} overflow-x-auto rounded-xl border border-dashed border-black/15 bg-neutral-50 p-2.5 dark:border-white/15 dark:bg-neutral-900 sm:p-4 lg:block`}
           >
-            {isScrollShrinkingNavbar ? <ScrollShrinkingInteractivePreview /> : preview}
+            <div className="min-w-0">{isScrollShrinkingNavbar ? <ScrollShrinkingInteractivePreview /> : preview}</div>
           </div>
 
-          {previewHint && (
+          {previewHint && mobileMainPanel === "preview" && (
             <p className="mt-2 text-xs text-neutral-600 dark:text-neutral-300">
               Preview stays on this details page. Use page links above to navigate.
             </p>
           )}
 
-          <section className="mt-4 rounded-xl border border-black/10 bg-white p-4 dark:border-white/10 dark:bg-neutral-950">
+          <section className={`${mobileMainPanel === "details" ? "mt-0" : "mt-4"} ${mobileMainPanel === "details" ? "" : "hidden"} rounded-xl border border-black/10 bg-white p-3.5 dark:border-white/10 dark:bg-neutral-950 sm:p-4 lg:mt-4 lg:block`}>
             <h2 className="text-sm font-medium text-neutral-900 dark:text-neutral-100">SEO Description</h2>
             <p className="mt-2 text-sm leading-6 text-neutral-600 dark:text-neutral-300">{item.seoText}</p>
           </section>
         </motion.section>
 
-        <aside className="space-y-4">
-          <section className="rounded-2xl border border-black/10 bg-white p-4 dark:border-white/10 dark:bg-neutral-950">
+        <aside className="min-w-0 space-y-4">
+          <div className="sticky top-2 z-10 grid grid-cols-2 gap-2 rounded-xl border border-black/10 bg-white p-1 shadow-sm dark:border-white/10 dark:bg-neutral-950 lg:hidden">
+            <button
+              type="button"
+              onClick={() => setMobilePanel("code")}
+              className={`rounded-lg px-3 py-2 text-xs font-medium transition ${
+                mobilePanel === "code"
+                  ? "bg-black text-white dark:bg-white dark:text-black"
+                  : "text-neutral-700 hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-900"
+              }`}
+            >
+              Code
+            </button>
+            <button
+              type="button"
+              onClick={() => setMobilePanel("prompt")}
+              className={`rounded-lg px-3 py-2 text-xs font-medium transition ${
+                mobilePanel === "prompt"
+                  ? "bg-black text-white dark:bg-white dark:text-black"
+                  : "text-neutral-700 hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-900"
+              }`}
+            >
+              Prompt
+            </button>
+          </div>
+
+          <section className={`${mobilePanel === "code" ? "" : "hidden"} rounded-2xl border border-black/10 bg-white p-3.5 dark:border-white/10 dark:bg-neutral-950 sm:p-4 lg:block`}>
             <div className="mb-3 flex items-center justify-between gap-2">
               <h2 className="text-sm font-medium">Component Code</h2>
               <CopyButton value={item.code} label="Copy Code" />
             </div>
-            <pre className="max-h-72 overflow-auto rounded-lg bg-neutral-950 p-3 text-xs leading-5 text-neutral-100">
+            <pre className="max-h-72 w-full overflow-auto rounded-lg bg-neutral-950 p-3 text-[11px] leading-5 text-neutral-100 sm:text-xs">
               <code>{highlightedCode}</code>
             </pre>
           </section>
 
-          <section className="rounded-2xl border border-black/10 bg-white p-4 dark:border-white/10 dark:bg-neutral-950">
+          <section className={`${mobilePanel === "prompt" ? "" : "hidden"} rounded-2xl border border-black/10 bg-white p-3.5 dark:border-white/10 dark:bg-neutral-950 sm:p-4 lg:block`}>
             <div className="mb-3 flex items-center justify-between gap-2">
               <h2 className="text-sm font-medium">AI Prompt</h2>
               <CopyButton value={item.prompt} label="Copy Prompt" />
