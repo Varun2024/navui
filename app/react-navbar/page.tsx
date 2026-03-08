@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { SeoLandingPage } from "@/components/SeoLandingPage";
 import { navbars } from "@/data/navbars";
+import { buildSeoMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "React Navbar Components | NavUI",
+export const metadata: Metadata = buildSeoMetadata({
+  title: "React Navbar Components",
   description: "Discover modern React navbar components with clean styling and copy-paste code.",
-};
+  path: "/react-navbar",
+  keywords: ["react navbar", "react navigation", "react ui components"],
+});
 
 const items = navbars.filter((item) => item.category === "Navbars");
 

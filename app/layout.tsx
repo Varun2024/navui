@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { DEFAULT_OG_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
 const inter = Inter({
@@ -19,9 +20,52 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NavUI - Modern Navigation Components",
-  description:
-    "Open-source gallery of modern navigation patterns for React, Next.js, and Tailwind CSS.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "NavUI - Modern Navigation Components",
+    template: "%s | NavUI",
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  category: "developer tools",
+  authors: [{ name: "NavUI" }],
+  creator: "NavUI",
+  publisher: "NavUI",
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: "NavUI - Modern Navigation Components",
+    description: SITE_DESCRIPTION,
+    url: "/",
+    images: [
+      {
+        url: DEFAULT_OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: "NavUI - Modern navigation components",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NavUI - Modern Navigation Components",
+    description: SITE_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE],
+  },
 };
 
 export default function RootLayout({

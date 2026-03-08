@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { NavbarDetailClient } from "@/components/NavbarDetailClient";
 import { NavbarPreview } from "@/components/navbar-components/previews";
 import { getNavbarBySlug, navbars } from "@/data/navbars";
+import { buildSeoMetadata } from "@/lib/seo";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -18,14 +19,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!item) {
     return {
-      title: "Component Not Found | NavUI",
+      title: "Component Not Found",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
-  return {
-    title: `${item.title} | NavUI`,
+  return buildSeoMetadata({
+    title: item.title,
     description: item.seoText,
-  };
+    path: `/navbars/${item.slug}`,
+    keywords: [item.category.toLowerCase(), ...item.tags],
+  });
 }
 
 export default async function NavbarDetailPage({ params }: PageProps) {

@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { SeoLandingPage } from "@/components/SeoLandingPage";
 import { navbars } from "@/data/navbars";
+import { buildSeoMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Dashboard Sidebar Components | NavUI",
+export const metadata: Metadata = buildSeoMetadata({
+  title: "Dashboard Sidebar Components",
   description: "Sidebar navigation patterns tailored for dashboard applications.",
-};
+  path: "/dashboard-sidebar",
+  keywords: ["dashboard sidebar", "admin sidebar", "sidebar navigation"],
+});
 
 const items = navbars.filter(
   (item) => item.category === "Sidebars" || item.tags.includes("dashboard"),

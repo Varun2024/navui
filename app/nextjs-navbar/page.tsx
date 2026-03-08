@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { SeoLandingPage } from "@/components/SeoLandingPage";
 import { navbars } from "@/data/navbars";
+import { buildSeoMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Next.js Navbar Patterns | NavUI",
+export const metadata: Metadata = buildSeoMetadata({
+  title: "Next.js Navbar Patterns",
   description: "Explore modern navbar patterns designed for Next.js applications.",
-};
+  path: "/nextjs-navbar",
+  keywords: ["next.js navbar", "app router navbar", "nextjs ui components"],
+});
 
 const items = navbars.filter((item) => item.category === "Navbars");
 

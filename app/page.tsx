@@ -1,6 +1,8 @@
 import dynamic from "next/dynamic";
+import type { Metadata } from "next";
 import { Hero } from "@/components/Hero";
 import { NavbarDemo } from "@/components/NavbarDemo";
+import { SITE_NAME, SITE_URL, buildSeoMetadata } from "@/lib/seo";
 
 const Categories = dynamic(() =>
   import("@/components/Categories").then((module) => module.Categories),
@@ -22,9 +24,32 @@ const Footer = dynamic(() =>
   import("@/components/Footer").then((module) => module.Footer),
 );
 
+export const metadata: Metadata = buildSeoMetadata({
+  title: "Modern Navigation Components",
+  description:
+    "Open-source gallery of modern navigation patterns for React, Next.js, and Tailwind CSS.",
+  path: "/",
+  keywords: ["navigation components", "ui library", "component gallery"],
+});
+
 export default function Home() {
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_NAME,
+    url: SITE_URL,
+    description:
+      "Open-source gallery of modern navigation patterns for React, Next.js, and Tailwind CSS.",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${SITE_URL}/gallery?q={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
+  };
+
   return (
     <div className="relative min-h-screen overflow-x-hidden">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
       <div className="hero-glow" aria-hidden />
       <NavbarDemo />
       <main className="pt-20 sm:pt-24">
