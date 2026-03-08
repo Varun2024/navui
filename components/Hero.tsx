@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ClipboardCopy, Eye, Github, Twitter } from "lucide-react";
+import { ClipboardCopy, Eye, Github, Sparkles, Twitter } from "lucide-react";
 import Link from "next/link";
 import { BuyMeCoffeeWidget } from "@/components/BuyMeCoffeeWidget";
 import {
@@ -67,9 +67,16 @@ export function Hero() {
         transition={{ duration: 0.5 }}
         className="space-y-6 text-center"
       >
-        <p className="inline-flex items-center rounded-full border border-black/15 bg-white px-3 py-1 text-xs font-medium tracking-wide text-neutral-700 shadow-sm dark:border-white/15 dark:bg-neutral-950 dark:text-neutral-200">
-          Open Source
-        </p>
+        <div className="mx-auto flex w-fit flex-wrap items-center justify-center gap-2">
+          <p className="inline-flex items-center gap-1.5 rounded-full border border-black/15 bg-white px-3 py-1 text-xs font-medium tracking-wide text-neutral-700 shadow-sm dark:border-white/15 dark:bg-neutral-950 dark:text-neutral-200">
+            <Github size={12} />
+            Open Source
+          </p>
+          <p className="inline-flex items-center gap-1.5 rounded-full border border-black/15 bg-white px-3 py-1 text-xs font-medium tracking-wide text-neutral-700 shadow-sm dark:border-white/15 dark:bg-neutral-950 dark:text-neutral-200">
+            <Sparkles size={12} />
+            20+ Modern Navigation Components
+          </p>
+        </div>
 
         <h1 className="mx-auto max-w-4xl text-3xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-50 sm:text-4xl md:text-6xl">
           <motion.span
