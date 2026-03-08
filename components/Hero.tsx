@@ -15,8 +15,13 @@ import {
 const DEFAULT_NAVBAR_STYLE = "stripe-navbar";
 const NAVBAR_NAME_BY_SLUG = new Map(navbars.map((item) => [item.slug, item.title]));
 
+type AppliedMessage = {
+  prefix: string;
+  navbarName: string;
+};
+
 export function Hero() {
-  const [appliedMessage, setAppliedMessage] = useState<string | null>(null);
+  const [appliedMessage, setAppliedMessage] = useState<AppliedMessage | null>(null);
   const [applyCount, setApplyCount] = useState(0);
 
   useEffect(() => {
@@ -55,7 +60,7 @@ export function Hero() {
 
     const navbarName = NAVBAR_NAME_BY_SLUG.get(nextSlug) ?? "Navbar";
     const prefix = isFirstApply ? "Applied navbar" : "Random navbar applied";
-    setAppliedMessage(`${prefix}: ${navbarName}. Preview more styles in Gallery.`);
+    setAppliedMessage({ prefix, navbarName });
     setApplyCount((value) => value + 1);
   }
 
@@ -174,7 +179,9 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             className="mx-auto max-w-2xl rounded-xl border border-black/15 bg-white px-4 py-2 text-xs text-neutral-700 shadow-sm dark:border-white/15 dark:bg-neutral-950 dark:text-neutral-200 sm:text-sm"
           >
-            {appliedMessage}
+            {appliedMessage.prefix}: {" "}
+            <span className="font-semibold underline underline-offset-4">{appliedMessage.navbarName}</span>.
+            {" "}Preview more styles in Gallery.
           </motion.p>
         )}
 
