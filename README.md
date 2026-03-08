@@ -1,6 +1,12 @@
 # NavUI
 
+[![GitHub stars](https://img.shields.io/github/stars/Varun2024/navui?style=flat-square)](https://github.com/Varun2024/navui/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/Varun2024/navui?style=flat-square)](https://github.com/Varun2024/navui/issues)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](./CONTRIBUTING.md)
+
 Open-source component library focused on modern navigation patterns.
+
+Built for developers who want to ship cleaner navigation faster, and for contributors who want to publish great navigation patterns to the community.
 
 NavUI ships reusable navbar patterns with:
 
@@ -14,6 +20,7 @@ Repository: `https://github.com/Varun2024/navui.git`
 
 ## Table of Contents
 
+- [Get Involved](#get-involved)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
@@ -24,6 +31,15 @@ Repository: `https://github.com/Varun2024/navui.git`
 - [Design Guidelines](#design-guidelines)
 - [Quality Checklist](#quality-checklist)
 - [Roadmap](#roadmap)
+- [License](#license)
+
+## Get Involved
+
+- Submit a navbar: open a PR using `docs/NAVBAR_SUBMISSION_TEMPLATE.md`.
+- Submit a sidebar: follow the same submission template and include category/tag details.
+- Star the repo: `https://github.com/Varun2024/navui`.
+
+If you are looking for a first contribution, start by improving a preview variant in `components/navbar-components/previews.tsx` and then update the catalog entry in `data/navbars.ts`.
 
 ## Features
 
@@ -112,6 +128,8 @@ If a new style does not need a new interaction model, map it to an existing prev
 
 NavUI uses a contribution contract so new navbar designs are consistent.
 
+This README and `CONTRIBUTING.md` are intentionally structured for open-source contributions: small focused PRs, clear submission rules, and predictable review criteria.
+
 System components:
 
 - `CONTRIBUTING.md`: full process, conventions, and review criteria.
@@ -151,3 +169,7 @@ Before opening a PR:
 - More navigation patterns (desktop + mobile + hybrid).
 - Improved contributor tooling (lint guards for duplicate slugs/tags).
 - Extended docs for animation and accessibility standards.
+
+## License
+
+MIT. See `LICENSE` for full text.
