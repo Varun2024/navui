@@ -1,3 +1,9 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./public/navui-readme-banner-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="./public/navui-readme-banner.svg" />
+  <img alt="NavUI Banner" src="./public/navui-readme-banner.svg" />
+</picture>
+
 # NavUI
 
 [![GitHub stars](https://img.shields.io/github/stars/Varun2024/navui?style=flat-square)](https://github.com/Varun2024/navui/stargazers)
