@@ -5,6 +5,7 @@ export const SITE_DESCRIPTION =
   "Open-source gallery of modern navigation patterns for React, Next.js, and Tailwind CSS.";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://navui.dev";
 export const DEFAULT_OG_IMAGE = "/navui-og.svg";
+export const TWITTER_HANDLE = "@TheV_Stack";
 
 const baseKeywords = [
   "navbar components",
@@ -57,6 +58,8 @@ export function buildSeoMetadata({
       title,
       description,
       images: [DEFAULT_OG_IMAGE],
+      creator: TWITTER_HANDLE,
+      site: TWITTER_HANDLE,
     },
   };
 }

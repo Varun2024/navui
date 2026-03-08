@@ -60,15 +60,15 @@ export function Hero() {
   }
 
   return (
-    <section className="mx-auto w-[min(1120px,94%)] py-12 md:py-24">
+    <section className="mx-auto w-[min(1120px,94%)] py-16 md:py-12">
       <motion.div
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="space-y-6 text-center"
       >
-          <p className="accent-chip inline-flex rounded-full px-3 py-1 text-xs tracking-wide">
-          Open source - navigation only
+        <p className="inline-flex items-center rounded-full border border-black/15 bg-white px-3 py-1 text-xs font-medium tracking-wide text-neutral-700 shadow-sm dark:border-white/15 dark:bg-neutral-950 dark:text-neutral-200">
+          Open Source
         </p>
 
         <h1 className="mx-auto max-w-4xl text-3xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-50 sm:text-4xl md:text-6xl">
@@ -76,30 +76,30 @@ export function Hero() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, delay: 0.05 }}
-            className="font-sans"
+            className="block font-sans"
           >
-            Ship
-          </motion.span>{" "}
+            NavUI
+          </motion.span>
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, delay: 0.13 }}
-            className="font-serif italic"
+            className="mt-1 block font-serif italic md:translate-x-6"
           >
-            navigation
-          </motion.span>{" "}
+            Modern Navigation Components
+          </motion.span>
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, delay: 0.21 }}
-            className="font-mono text-[0.88em]"
+            className="mt-1 block font-mono text-[0.870em] md:translate-x-12"
           >
-            faster.
+            for React &amp; Next.js
           </motion.span>
         </h1>
 
         <p className="mx-auto max-w-xl text-sm leading-6 text-neutral-600 dark:text-neutral-300 sm:text-base md:text-lg">
-          Copy clean navbars. Paste. Ship.
+          Copy. Paste. Ship.
         </p>
 
         <div className="mx-auto flex w-full max-w-2xl flex-col items-stretch justify-center gap-2 pt-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
