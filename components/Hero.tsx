@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ClipboardCopy, Eye, Github, Sparkles, Twitter } from "lucide-react";
+import { ClipboardCopy, Eye, Github, Sparkles, Star, Twitter } from "lucide-react";
 import Link from "next/link";
 import { BuyMeCoffeeWidget } from "@/components/BuyMeCoffeeWidget";
 import {
@@ -13,6 +13,7 @@ import {
 } from "@/data/navbars";
 
 const DEFAULT_NAVBAR_STYLE = "stripe-navbar";
+const GITHUB_STARS_URL = "https://github.com/Varun2024/navui/stargazers";
 const NAVBAR_NAME_BY_SLUG = new Map(navbars.map((item) => [item.slug, item.title]));
 
 type AppliedMessage = {
@@ -81,6 +82,15 @@ export function Hero() {
             <Sparkles size={12} />
             20+ Modern Navigation Components
           </p>
+          <Link
+            href={GITHUB_STARS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-full border border-amber-400/60 bg-amber-50 px-3 py-1 text-xs font-medium tracking-wide text-amber-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-amber-100 dark:border-amber-300/30 dark:bg-amber-400/10 dark:text-amber-100 dark:hover:bg-amber-400/15"
+          >
+            <Star size={12} className="fill-current" />
+            Star on GitHub
+          </Link>
         </div>
 
         <h1 className="mx-auto max-w-4xl text-3xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-50 sm:text-4xl md:text-6xl">
