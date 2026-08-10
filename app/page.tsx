@@ -53,7 +53,7 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
       <div className="hero-glow" aria-hidden />
       <NavbarDemo />
-      <main className="pt-20 sm:pt-24">
+      <main className="pt-6 sm:pt-10">
         <Hero />
         <Suspense
           fallback={
