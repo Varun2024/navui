@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactElement } from "react";
 import {
   Compass,
   Grid3X3,
@@ -21,27 +21,14 @@ import {
   NAVBAR_STYLE_APPLIED_KEY,
   NAVBAR_STYLE_EVENT,
   NAVBAR_STYLE_STORAGE_KEY,
+  navbars,
+  type NavbarSlug,
 } from "@/data/navbars";
+
+const NAVBAR_TITLE_BY_SLUG = new Map(navbars.map((n) => [n.slug, n.title]));
 
 const DEFAULT_STYLE = "";
 const GITHUB_REPO_URL = "https://github.com/Varun2024/navui.git";
-
-const TOP_NAV_STYLES = new Set([
-  "stripe-navbar",
-  "linear-navbar",
-  "glass-navbar",
-  "scroll-navbar",
-  "sticky-cta-navbar",
-  "minimal-navbar",
-  "animated-underline-navbar",
-  "stripe-mega-navbar",
-  "command-palette",
-  "gradient-navbar",
-  "floating-center-navbar",
-  "morphing-menu",
-  "tab-navigation",
-  "hybrid-navbar",
-]);
 
 function getInitialStyleSlug() {
   if (typeof window === "undefined") {
@@ -679,6 +666,156 @@ function CollapsibleSidebarNavbar({
   );
 }
 
+type LiveNavProps = {
+  isDark: boolean;
+  onToggle: () => void;
+  isHome: boolean;
+  isGallery: boolean;
+  isCategories: boolean;
+  isWorkflow: boolean;
+};
+
+type LiveNavRenderer = (props: LiveNavProps) => ReactElement;
+type NavZone = "top" | "bottom" | "side" | "none";
+type LiveNavEntry = { render: LiveNavRenderer; zone: NavZone };
+
+function topNav(styleSlug: NavbarSlug): LiveNavEntry {
+  return {
+    zone: "top",
+    render: function TopNavRenderer(p) {
+      return <TopNavbar styleSlug={styleSlug} {...p} />;
+    },
+  };
+}
+
+// Exhaustive: adding a slug to data/navbars.ts without a renderer here = type error.
+const LIVE_NAVBARS: Record<NavbarSlug, LiveNavEntry> = {
+  "stripe-navbar": topNav("stripe-navbar"),
+  "linear-navbar": topNav("linear-navbar"),
+  "glass-navbar": topNav("glass-navbar"),
+  "scroll-navbar": topNav("scroll-navbar"),
+  "sticky-cta-navbar": topNav("sticky-cta-navbar"),
+  "minimal-navbar": topNav("minimal-navbar"),
+  "animated-underline-navbar": topNav("animated-underline-navbar"),
+  "stripe-mega-navbar": topNav("stripe-mega-navbar"),
+  "command-palette": topNav("command-palette"),
+  "gradient-navbar": topNav("gradient-navbar"),
+  "floating-center-navbar": topNav("floating-center-navbar"),
+  "morphing-menu": topNav("morphing-menu"),
+  "tab-navigation": topNav("tab-navigation"),
+  "hybrid-navbar": topNav("hybrid-navbar"),
+  "gsap-curtain-navbar": topNav("gsap-curtain-navbar"),
+  "motion-spring-navbar": topNav("motion-spring-navbar"),
+  "dock-navigation": {
+    zone: "bottom",
+    render: (p) => (
+      <DockNavbar
+        isDark={p.isDark}
+        onToggle={p.onToggle}
+        isHome={p.isHome}
+        isGallery={p.isGallery}
+        isCategories={p.isCategories}
+      />
+    ),
+  },
+  "floating-action-navbar": {
+    zone: "bottom",
+    render: (p) => (
+      <DockNavbar
+        isDark={p.isDark}
+        onToggle={p.onToggle}
+        isHome={p.isHome}
+        isGallery={p.isGallery}
+        isCategories={p.isCategories}
+      />
+    ),
+  },
+  "macos-dock-navbar": {
+    zone: "bottom",
+    render: (p) => (
+      <DockNavbar
+        isDark={p.isDark}
+        onToggle={p.onToggle}
+        isHome={p.isHome}
+        isGallery={p.isGallery}
+        isCategories={p.isCategories}
+      />
+    ),
+  },
+  "mobile-bottom-nav": {
+    zone: "bottom",
+    render: (p) => (
+      <MobileBottomNavbar
+        isDark={p.isDark}
+        onToggle={p.onToggle}
+        isHome={p.isHome}
+        isGallery={p.isGallery}
+        isWorkflow={p.isWorkflow}
+      />
+    ),
+  },
+  "bottom-mobile-nav": {
+    zone: "bottom",
+    render: (p) => (
+      <BottomMobileNavbar
+        isDark={p.isDark}
+        onToggle={p.onToggle}
+        isHome={p.isHome}
+        isGallery={p.isGallery}
+        isWorkflow={p.isWorkflow}
+      />
+    ),
+  },
+  "mobile-drawer": {
+    zone: "none",
+    render: (p) => <MobileDrawerNavbar isDark={p.isDark} onToggle={p.onToggle} />,
+  },
+  "expandable-mobile-nav": {
+    zone: "bottom",
+    render: (p) => (
+      <ExpandableMobileNavbar
+        isDark={p.isDark}
+        onToggle={p.onToggle}
+        isHome={p.isHome}
+        isGallery={p.isGallery}
+        isWorkflow={p.isWorkflow}
+      />
+    ),
+  },
+  "dashboard-sidebar": {
+    zone: "side",
+    render: (p) => (
+      <DashboardSidebarNavbar
+        isDark={p.isDark}
+        onToggle={p.onToggle}
+        isHome={p.isHome}
+        isGallery={p.isGallery}
+        isCategories={p.isCategories}
+      />
+    ),
+  },
+  "workspace-switcher": {
+    zone: "side",
+    render: (p) => (
+      <DashboardSidebarNavbar
+        isDark={p.isDark}
+        onToggle={p.onToggle}
+        isHome={p.isHome}
+        isGallery={p.isGallery}
+        isCategories={p.isCategories}
+      />
+    ),
+  },
+  "collapsible-sidebar": {
+    zone: "side",
+    render: (p) => <CollapsibleSidebarNavbar isDark={p.isDark} onToggle={p.onToggle} />,
+  },
+  "nested-sidebar": {
+    zone: "side",
+    render: (p) => <CollapsibleSidebarNavbar isDark={p.isDark} onToggle={p.onToggle} />,
+  },
+};
+
 export function NavbarDemo() {
   const { resolvedTheme, setTheme } = useTheme();
   const pathname = usePathname();
@@ -704,89 +841,83 @@ export function NavbarDemo() {
       }
     }
 
+    function onStorage(event: StorageEvent) {
+      if (event.key === NAVBAR_STYLE_STORAGE_KEY && event.newValue) {
+        setStyleSlug(event.newValue);
+      }
+    }
+
     window.addEventListener(NAVBAR_STYLE_EVENT, onStyleChange as EventListener);
-    return () =>
+    window.addEventListener("storage", onStorage);
+    return () => {
       window.removeEventListener(NAVBAR_STYLE_EVENT, onStyleChange as EventListener);
+      window.removeEventListener("storage", onStorage);
+    };
   }, []);
 
-  const showTop = TOP_NAV_STYLES.has(styleSlug);
-  const isHome = pathname === "/" && activeHash !== "#categories" && activeHash !== "#how-it-works";
-  const isGallery = pathname !== "/" && pathname !== "/#categories";
+  const entry = LIVE_NAVBARS[styleSlug as NavbarSlug];
+
+  useEffect(() => {
+    const zone = entry?.zone ?? "none";
+    document.documentElement.dataset.navZone = zone;
+    return () => {
+      delete document.documentElement.dataset.navZone;
+    };
+  }, [entry]);
+
+  const isHome =
+    pathname === "/" && activeHash !== "#categories" && activeHash !== "#how-it-works";
+  const isGallery = pathname === "/gallery";
   const isCategories = pathname === "/" && activeHash === "#categories";
   const isWorkflow = pathname === "/" && activeHash === "#how-it-works";
 
+  if (!entry) return null;
+
+  function unapply() {
+    window.localStorage.removeItem(NAVBAR_STYLE_APPLIED_KEY);
+    window.localStorage.removeItem(NAVBAR_STYLE_STORAGE_KEY);
+    setStyleSlug(DEFAULT_STYLE);
+    window.dispatchEvent(
+      new CustomEvent(NAVBAR_STYLE_EVENT, { detail: { slug: DEFAULT_STYLE } }),
+    );
+  }
+
+  const title = NAVBAR_TITLE_BY_SLUG.get(styleSlug) ?? styleSlug;
+
   return (
     <>
-      {showTop && (
-        <TopNavbar
-          styleSlug={styleSlug}
-          isDark={isDark}
-          onToggle={() => setTheme(isDark ? "light" : "dark")}
-          isHome={isHome}
-          isGallery={isGallery}
-          isCategories={isCategories}
-          isWorkflow={isWorkflow}
-        />
-      )}
-      {(styleSlug === "dock-navigation" ||
-        styleSlug === "floating-action-navbar" ||
-        styleSlug === "macos-dock-navbar") && (
-        <DockNavbar
-          isDark={isDark}
-          onToggle={() => setTheme(isDark ? "light" : "dark")}
-          isHome={isHome}
-          isGallery={isGallery}
-          isCategories={isCategories}
-        />
-      )}
-      {styleSlug === "mobile-bottom-nav" && (
-        <MobileBottomNavbar
-          isDark={isDark}
-          onToggle={() => setTheme(isDark ? "light" : "dark")}
-          isHome={isHome}
-          isGallery={isGallery}
-          isWorkflow={isWorkflow}
-        />
-      )}
-      {styleSlug === "bottom-mobile-nav" && (
-        <BottomMobileNavbar
-          isDark={isDark}
-          onToggle={() => setTheme(isDark ? "light" : "dark")}
-          isHome={isHome}
-          isGallery={isGallery}
-          isWorkflow={isWorkflow}
-        />
-      )}
-      {styleSlug === "mobile-drawer" && (
-        <MobileDrawerNavbar
-          isDark={isDark}
-          onToggle={() => setTheme(isDark ? "light" : "dark")}
-        />
-      )}
-      {styleSlug === "expandable-mobile-nav" && (
-        <ExpandableMobileNavbar
-          isDark={isDark}
-          onToggle={() => setTheme(isDark ? "light" : "dark")}
-          isHome={isHome}
-          isGallery={isGallery}
-          isWorkflow={isWorkflow}
-        />
-      )}
-      {(styleSlug === "dashboard-sidebar" || styleSlug === "workspace-switcher") && (
-        <DashboardSidebarNavbar
-          isDark={isDark}
-          onToggle={() => setTheme(isDark ? "light" : "dark")}
-          isHome={isHome}
-          isGallery={isGallery}
-          isCategories={isCategories}
-        />
-      )}
-      {(styleSlug === "collapsible-sidebar" || styleSlug === "nested-sidebar") && (
-        <CollapsibleSidebarNavbar
-          isDark={isDark}
-          onToggle={() => setTheme(isDark ? "light" : "dark")}
-        />
-      )}
+      {entry.render({
+        isDark,
+        onToggle: () => setTheme(isDark ? "light" : "dark"),
+        isHome,
+        isGallery,
+        isCategories,
+        isWorkflow,
+      })}
+      <div
+        className={`fixed z-[60] flex items-center gap-1.5 rounded-full border border-black/10 bg-white/95 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-neutral-700 shadow-lg backdrop-blur dark:border-white/10 dark:bg-neutral-950/95 dark:text-neutral-200 ${
+          entry.zone === "top"
+            ? "bottom-3 right-3"
+            : entry.zone === "bottom"
+              ? "top-3 right-3"
+              : entry.zone === "side"
+                ? "top-3 right-3"
+                : "bottom-3 right-3"
+        }`}
+      >
+        <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" />
+        <span className="hidden sm:inline">Demo ·</span>
+        <span className="max-w-[9rem] truncate normal-case tracking-normal text-neutral-900 dark:text-neutral-50">
+          {title}
+        </span>
+        <button
+          onClick={unapply}
+          aria-label="Remove applied navbar"
+          className="tap-press inline-flex h-6 w-6 items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-900 dark:hover:text-neutral-50"
+        >
+          <X size={12} />
+        </button>
+      </div>
     </>
   );
 }

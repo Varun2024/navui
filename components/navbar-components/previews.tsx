@@ -1,7 +1,14 @@
+"use client";
+
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Compass, Grid3X3, Home, Menu, Sparkles, Workflow } from "lucide-react";
 import { NavUILogo } from "@/components/ui/NavUILogo";
+import {
+  AnimatedGsapCurtainNavbarPreview,
+  AnimatedMotionSpringNavbarPreview,
+} from "./AnimatedPreviews";
 
 const GITHUB_REPO_URL = "https://github.com/Varun2024/navui.git";
 
@@ -390,6 +397,14 @@ function FloatingActionNavbarPreview() {
     </div>
   );
 }
+ 
+function GsapCurtainNavbarPreview() {
+  return <AnimatedGsapCurtainNavbarPreview />;
+}
+
+function MotionSpringNavbarPreview() {
+  return <AnimatedMotionSpringNavbarPreview />;
+}
 
 export function NavbarPreview({ slug }: PreviewProps): ReactNode {
   const previews: Record<string, ReactNode> = {
@@ -420,7 +435,25 @@ export function NavbarPreview({ slug }: PreviewProps): ReactNode {
     "hybrid-navbar": <HybridNavbarPreview />,
     "floating-action-navbar": <FloatingActionNavbarPreview />,
     "macos-dock-navbar": <DockNavigationPreview />,
+    "gsap-curtain-navbar": <GsapCurtainNavbarPreview />,
+    "motion-spring-navbar": <MotionSpringNavbarPreview />,
   };
 
-  return previews[slug] ?? <StripeNavbarPreview />;
+  const animatedPreviewSlugs = new Set(["gsap-curtain-navbar", "motion-spring-navbar"]);
+  const content = previews[slug] ?? <StripeNavbarPreview />;
+
+  if (animatedPreviewSlugs.has(slug)) {
+    return content;
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.28, ease: "easeOut" }}
+      whileHover={{ y: -1 }}
+    >
+      {content}
+    </motion.div>
+  );
 }

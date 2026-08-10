@@ -30,6 +30,19 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Applied-navbar insets — set by NavbarDemo via data-nav-zone on <html>. */
+html[data-nav-zone="top"] body {
+  padding-top: 5.5rem;
+}
+html[data-nav-zone="bottom"] body {
+  padding-bottom: 5rem;
+}
+@media (min-width: 1024px) {
+  html[data-nav-zone="side"] body {
+    padding-left: 16rem;
+  }
+}
+
 body::before {
   content: "";
   position: fixed;

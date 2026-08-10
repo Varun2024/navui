@@ -43,5 +43,5 @@ export default async function NavbarDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  return <NavbarDetailClient item={item} preview={NavbarPreview({ slug })} />;
+  return <NavbarDetailClient item={item} preview={<NavbarPreview slug={slug} />} />;
 }

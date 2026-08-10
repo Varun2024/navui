@@ -13,6 +13,8 @@ export const NAVBAR_STYLE_STORAGE_KEY = "navui.home.navbarStyle";
 export const NAVBAR_STYLE_EVENT = "navui-navbar-style-change";
 export const NAVBAR_STYLE_APPLIED_KEY = "navui.home.navbarApplied";
 
+export type NavbarSlug = (typeof navbars)[number]["slug"];
+
 const SNIPPET_LOGO_MARKUP = `<a className="inline-flex items-center gap-2 font-semibold">
   <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-black text-xs font-bold text-white">N</span>
   NavUI
@@ -652,6 +654,125 @@ export function ScrollShrinkingNavbar() {
 }`,
     prompt:
       "Create a Mac Dock style navigation with icon magnification on hover, floating surface, and smooth scale transitions.",
+  },
+  {
+    slug: "gsap-curtain-navbar",
+    title: "GSAP Curtain Reveal Navbar",
+    category: "Navbars",
+    tags: ["gsap", "animated", "curtain", "stagger"],
+    summary: "GSAP navbar with a staggered curtain-style menu reveal interaction.",
+    seoText: buildSeoText(
+      "GSAP Curtain Reveal Navbar",
+      "It uses GSAP timeline sequencing and staggered link animations for a distinctive menu reveal.",
+    ),
+    code: `import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+
+export function GsapCurtainNavbar() {
+  const [open, setOpen] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const linksRef = useRef<Array<HTMLAnchorElement | null>>([]);
+
+  useEffect(() => {
+    const panel = panelRef.current;
+    if (!panel) {
+      return;
+    }
+
+    const ctx = gsap.context(() => {
+      if (open) {
+        gsap.fromTo(panel, { height: 0, opacity: 0 }, { height: "auto", opacity: 1, duration: 0.35, ease: "power2.out" });
+        gsap.fromTo(
+          linksRef.current,
+          { y: 12, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.28, ease: "power2.out", stagger: 0.05, delay: 0.08 },
+        );
+      } else {
+        gsap.to(panel, { height: 0, opacity: 0, duration: 0.24, ease: "power2.in" });
+      }
+    }, panel);
+
+    return () => ctx.revert();
+  }, [open]);
+
+  return (
+    <nav className="rounded-xl border bg-white px-4 py-3">
+      <div className="flex items-center justify-between">
+        ${SNIPPET_LOGO_MARKUP}
+        <button onClick={() => setOpen((v) => !v)} className="rounded-lg border px-3 py-2 text-sm">
+          Menu
+        </button>
+      </div>
+      <div ref={panelRef} className="mt-3 overflow-hidden">
+        <div className="grid gap-2 text-sm">
+          {["Gallery", "Categories", "How It Works"].map((label, idx) => (
+            <a
+              key={label}
+              ref={(el) => {
+                linksRef.current[idx] = el;
+              }}
+              className="rounded-lg bg-neutral-50 px-3 py-2"
+            >
+              {label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </nav>
+  );
+}`,
+    prompt:
+      "Create a GSAP navbar with a curtain-style dropdown panel, staggered link reveal, and smooth open/close timeline animation.",
+  },
+  {
+    slug: "motion-spring-navbar",
+    title: "Motion Spring Rail Navbar",
+    category: "Navbars",
+    tags: ["motion", "framer-motion", "spring", "interactive"],
+    summary: "Framer Motion navbar with springy rail indicator and hover lift feedback.",
+    seoText: buildSeoText(
+      "Motion Spring Rail Navbar",
+      "It combines Motion springs, staggered transitions, and a sliding rail indicator for tactile navigation feedback.",
+    ),
+    code: `import { useState } from "react";
+import { motion } from "framer-motion";
+
+const links = ["Home", "Gallery", "Categories", "How It Works"];
+
+export function MotionSpringRailNavbar() {
+  const [active, setActive] = useState("Home");
+
+  return (
+    <nav className="rounded-xl border bg-white px-4 py-3">
+      <div className="flex items-center justify-between gap-3">
+        ${SNIPPET_LOGO_MARKUP}
+        <div className="relative hidden items-center gap-1 rounded-xl bg-neutral-100 p-1 md:flex">
+          {links.map((label) => (
+            <button
+              key={label}
+              onClick={() => setActive(label)}
+              className="relative rounded-lg px-3 py-2 text-sm"
+            >
+              {active === label && (
+                <motion.span
+                  layoutId="spring-rail"
+                  className="absolute inset-0 rounded-lg bg-white shadow"
+                  transition={{ type: "spring", stiffness: 450, damping: 30 }}
+                />
+              )}
+              <span className="relative z-10">{label}</span>
+            </button>
+          ))}
+        </div>
+        <motion.button whileHover={{ y: -1.5 }} whileTap={{ scale: 0.97 }} className="rounded-lg bg-black px-3 py-2 text-sm text-white">
+          Contribute
+        </motion.button>
+      </div>
+    </nav>
+  );
+}`,
+    prompt:
+      "Create a Framer Motion navbar with a spring-based sliding active indicator rail, smooth hover lift, and polished CTA interactions.",
   },
 ];
 

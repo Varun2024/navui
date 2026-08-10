@@ -524,10 +524,10 @@ export function ComponentGrid({ mode = "home" }: ComponentGridProps) {
       );
 
       if (pathname !== "/") {
-        router.push("/gallery");
+        router.push("/");
       }
 
-      setToastMessage("Applied. Open Details for full effect.");
+      setToastMessage("Applied on Home. Open Details for full effect.");
     },
     [pathname, router],
   );
