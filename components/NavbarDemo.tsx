@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   Menu,
   Moon,
+  Search,
   Sun,
   X,
   Workflow,
@@ -666,6 +667,246 @@ function CollapsibleSidebarNavbar({
   );
 }
 
+function FloatingCenterNavbar({
+  isDark,
+  onToggle,
+  isHome,
+  isGallery,
+  isCategories,
+}: {
+  isDark: boolean;
+  onToggle: () => void;
+  isHome: boolean;
+  isGallery: boolean;
+  isCategories: boolean;
+}) {
+  const items = [
+    { href: "/", label: "Home", active: isHome },
+    { href: "/gallery", label: "Gallery", active: isGallery },
+    { href: "/#categories", label: "Categories", active: isCategories },
+  ];
+
+  return (
+    <motion.nav
+      initial={{ opacity: 0, y: -12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35 }}
+      className="fixed left-1/2 top-3 z-40 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-orange-300/70 bg-orange-50/95 p-1.5 shadow-lg backdrop-blur dark:border-orange-400/40 dark:bg-orange-950/70 sm:top-5"
+    >
+      {items.map((item) => (
+        <Link
+          key={item.label}
+          href={item.href}
+          aria-current={item.active ? "page" : undefined}
+          className={`tap-press inline-flex min-h-9 items-center rounded-full px-3 py-1.5 text-xs font-medium transition ${
+            item.active
+              ? "bg-orange-500 text-white shadow-sm"
+              : "text-orange-900 hover:bg-orange-100 dark:text-orange-100 dark:hover:bg-orange-900/50"
+          }`}
+        >
+          {item.label}
+        </Link>
+      ))}
+      <Link
+        href="https://github.com/Varun2024/navui.git"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="tap-press inline-flex min-h-9 items-center rounded-full bg-black px-3 py-1.5 text-xs font-medium text-white transition hover:opacity-90 dark:bg-white dark:text-black"
+      >
+        Contribute
+      </Link>
+      <ThemeToggle isDark={isDark} onToggle={onToggle} />
+    </motion.nav>
+  );
+}
+
+function TabNavigationNavbar({
+  isDark,
+  onToggle,
+  isHome,
+  isGallery,
+  isCategories,
+}: {
+  isDark: boolean;
+  onToggle: () => void;
+  isHome: boolean;
+  isGallery: boolean;
+  isCategories: boolean;
+}) {
+  const items = [
+    { href: "/", label: "Home", active: isHome, id: "home" },
+    { href: "/gallery", label: "Gallery", active: isGallery, id: "gallery" },
+    { href: "/#categories", label: "Categories", active: isCategories, id: "categories" },
+  ];
+
+  return (
+    <motion.header
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.4 }}
+      className="fixed left-0 right-0 top-3 z-40 mx-auto flex w-[min(720px,92%)] items-center justify-between gap-3 rounded-2xl border border-black/10 bg-white/95 p-1.5 shadow-lg backdrop-blur dark:border-white/10 dark:bg-neutral-950/90 sm:top-5"
+    >
+      <Link
+        href="/"
+        className="tap-press ml-1 inline-flex items-center rounded-lg px-2 py-1 text-xs font-semibold"
+      >
+        <NavUILogo compact hideTextOnMobile />
+      </Link>
+      <nav className="relative flex flex-1 items-center justify-center gap-0.5 text-xs">
+        {items.map((item) => (
+          <Link
+            key={item.id}
+            href={item.href}
+            aria-current={item.active ? "page" : undefined}
+            className={`relative inline-flex min-h-9 items-center rounded-lg px-3 py-1.5 transition ${
+              item.active
+                ? "text-white dark:text-black"
+                : "text-neutral-700 hover:text-neutral-950 dark:text-neutral-300 dark:hover:text-neutral-50"
+            }`}
+          >
+            {item.active && (
+              <motion.span
+                layoutId="tab-nav-indicator"
+                className="absolute inset-0 -z-0 rounded-lg bg-black dark:bg-white"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+            <span className="relative z-10">{item.label}</span>
+          </Link>
+        ))}
+      </nav>
+      <ThemeToggle isDark={isDark} onToggle={onToggle} />
+    </motion.header>
+  );
+}
+
+function CommandPaletteNavbar({
+  isDark,
+  onToggle,
+  isHome,
+  isGallery,
+  isCategories,
+}: {
+  isDark: boolean;
+  onToggle: () => void;
+  isHome: boolean;
+  isGallery: boolean;
+  isCategories: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setOpen((v) => !v);
+      } else if (e.key === "Escape") {
+        setOpen(false);
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  const commands = [
+    { href: "/", label: "Home", hint: "/", active: isHome },
+    { href: "/gallery", label: "Gallery", hint: "/gallery", active: isGallery },
+    { href: "/#categories", label: "Categories", hint: "#categories", active: isCategories },
+    { href: "/#how-it-works", label: "How It Works", hint: "#how-it-works", active: false },
+    { href: "https://github.com/Varun2024/navui.git", label: "Contribute on GitHub", hint: "github", active: false },
+  ];
+  const filtered = commands.filter((c) =>
+    c.label.toLowerCase().includes(query.toLowerCase()) || c.hint.includes(query.toLowerCase()),
+  );
+
+  return (
+    <>
+      <motion.header
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.4 }}
+        className="fixed left-0 right-0 top-3 z-40 mx-auto flex w-[min(1000px,94%)] items-center justify-between gap-3 rounded-xl border border-neutral-800 bg-neutral-950 px-3 py-2 text-neutral-100 shadow-2xl dark:border-white/10 sm:top-5"
+      >
+        <Link href="/" className="tap-press inline-flex items-center px-1">
+          <NavUILogo compact textClassName="text-neutral-100" />
+        </Link>
+        <button
+          onClick={() => setOpen(true)}
+          aria-label="Open command palette"
+          className="tap-press group flex flex-1 items-center justify-between gap-3 rounded-md border border-neutral-800 bg-neutral-900/70 px-3 py-1.5 text-left text-xs text-neutral-400 transition hover:border-neutral-700 hover:text-neutral-200"
+        >
+          <span className="inline-flex items-center gap-2">
+            <Search size={12} />
+            Search commands…
+          </span>
+          <kbd className="rounded border border-neutral-700 bg-neutral-950 px-1.5 py-0.5 font-mono text-[10px] text-neutral-400">
+            {typeof navigator !== "undefined" && navigator.platform?.startsWith("Mac") ? "⌘" : "Ctrl"}K
+          </kbd>
+        </button>
+        <ThemeToggle isDark={isDark} onToggle={onToggle} />
+      </motion.header>
+
+      <AnimatePresence>
+        {open && (
+          <>
+            <motion.button
+              key="cmd-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setOpen(false)}
+              aria-label="Close command palette"
+              className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+            />
+            <motion.div
+              key="cmd-panel"
+              initial={{ opacity: 0, y: -8, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.98 }}
+              transition={{ duration: 0.15 }}
+              className="fixed left-1/2 top-24 z-50 w-[min(560px,92vw)] -translate-x-1/2 overflow-hidden rounded-xl border border-neutral-800 bg-neutral-950 shadow-2xl"
+            >
+              <div className="flex items-center gap-2 border-b border-neutral-800 px-3 py-2.5">
+                <Search size={14} className="text-neutral-500" />
+                <input
+                  autoFocus
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Type a command or route…"
+                  className="flex-1 bg-transparent text-sm text-neutral-100 placeholder:text-neutral-500 focus:outline-none"
+                />
+                <kbd className="rounded border border-neutral-800 bg-neutral-900 px-1.5 py-0.5 font-mono text-[10px] text-neutral-500">
+                  esc
+                </kbd>
+              </div>
+              <div className="max-h-72 overflow-auto py-1">
+                {filtered.length === 0 ? (
+                  <p className="px-4 py-6 text-center text-xs text-neutral-500">No matches.</p>
+                ) : (
+                  filtered.map((cmd) => (
+                    <Link
+                      key={cmd.href}
+                      href={cmd.href}
+                      onClick={() => setOpen(false)}
+                      className={`flex items-center justify-between px-3 py-2 text-sm transition hover:bg-neutral-900 ${
+                        cmd.active ? "text-white" : "text-neutral-300"
+                      }`}
+                    >
+                      <span>{cmd.label}</span>
+                      <span className="font-mono text-[10px] text-neutral-500">{cmd.hint}</span>
+                    </Link>
+                  ))
+                )}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
 type LiveNavProps = {
   isDark: boolean;
   onToggle: () => void;
@@ -698,11 +939,44 @@ const LIVE_NAVBARS: Record<NavbarSlug, LiveNavEntry> = {
   "minimal-navbar": topNav("minimal-navbar"),
   "animated-underline-navbar": topNav("animated-underline-navbar"),
   "stripe-mega-navbar": topNav("stripe-mega-navbar"),
-  "command-palette": topNav("command-palette"),
+  "command-palette": {
+    zone: "top",
+    render: (p) => (
+      <CommandPaletteNavbar
+        isDark={p.isDark}
+        onToggle={p.onToggle}
+        isHome={p.isHome}
+        isGallery={p.isGallery}
+        isCategories={p.isCategories}
+      />
+    ),
+  },
   "gradient-navbar": topNav("gradient-navbar"),
-  "floating-center-navbar": topNav("floating-center-navbar"),
+  "floating-center-navbar": {
+    zone: "top",
+    render: (p) => (
+      <FloatingCenterNavbar
+        isDark={p.isDark}
+        onToggle={p.onToggle}
+        isHome={p.isHome}
+        isGallery={p.isGallery}
+        isCategories={p.isCategories}
+      />
+    ),
+  },
   "morphing-menu": topNav("morphing-menu"),
-  "tab-navigation": topNav("tab-navigation"),
+  "tab-navigation": {
+    zone: "top",
+    render: (p) => (
+      <TabNavigationNavbar
+        isDark={p.isDark}
+        onToggle={p.onToggle}
+        isHome={p.isHome}
+        isGallery={p.isGallery}
+        isCategories={p.isCategories}
+      />
+    ),
+  },
   "hybrid-navbar": topNav("hybrid-navbar"),
   "gsap-curtain-navbar": topNav("gsap-curtain-navbar"),
   "motion-spring-navbar": topNav("motion-spring-navbar"),
